@@ -78,6 +78,10 @@ Consider Binance charges (0.05%) and maker fees (0.046%) when evaluating arbitra
 ## 📄 License
 This project is licensed under the MIT License.
 
+## 📈 Future Updates
+This project is can be updated to include more features.  
+There C++ version of this script will be uploaded soon.
+
 ## 🤝 Contributing
 Contributions are welcome! If you find a bug or have a feature request, please open an issue or submit a pull request.
 

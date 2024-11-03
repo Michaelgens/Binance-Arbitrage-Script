@@ -1,0 +1,71 @@
+<!doctype html>
+<html lang="en">
+    <head>
+        <meta charset="UTF-8" />
+        <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+        <title>Triangular Arbitrage Signal</title>
+        <style>
+            body {
+                font-family: Arial, sans-serif;
+            }
+            .opportunity {
+                font-size: 1em;
+                margin-top: 20px;
+            }
+            .error {
+                color: red;
+                font-size: 1em;
+                margin-top: 20px;
+            }
+        </style>
+    </head>
+    <body>
+        <p>Live Triangular Arbitrage Opportunities</p>
+        <div id="arbitrage-opportunities"></div>
+        <div id="error" class="error"></div>
+
+        <script>
+            const updateArbitrageOpportunities = () => {
+                fetch("/api/arbitrage")
+                    .then((response) => {
+                        if (!response.ok) {
+                            throw new Error("Network response was not ok");
+                        }
+                        return response.json();
+                    })
+                    .then((opportunities) => {
+                        const container = document.getElementById(
+                            "arbitrage-opportunities",
+                        );
+                        container.innerHTML = "";
+
+                        if (opportunities.length > 0) {
+                            opportunities.forEach((opportunity) => {
+                                const div = document.createElement("div");
+                                div.className = "opportunity";
+                                div.textContent = opportunity;
+                                container.appendChild(div);
+                            });
+                        } else {
+                            container.textContent =
+                                "No arbitrage opportunities at the moment.";
+                        }
+                    })
+                    .catch((error) => {
+                        console.error(
+                            "Error fetching arbitrage opportunities:",
+                            error,
+                        );
+                        document.getElementById("error").textContent =
+                            "Error fetching arbitrage data. Please try again later.";
+                    });
+            };
+
+            // Fetch opportunities every 5 seconds
+            setInterval(updateArbitrageOpportunities, 5000);
+
+            // Fetch opportunities on page load
+            updateArbitrageOpportunities();
+        </script>
+    </body>
+</html>
